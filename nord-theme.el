@@ -223,7 +223,7 @@
     `(message-separator ((,class (:inherit shadow))))
     `(minibuffer-prompt ((,class (:foreground ,nord8 :weight bold))))
     `(mm-command-output ((,class (:foreground ,nord8))))
-    `(mode-line ((,class (:foreground ,nord8 :background ,nord3))))
+    `(mode-line ((,class (:foreground ,nord4 :background ,nord2))))
     `(mode-line-buffer-id ((,class (:weight bold))))
     `(mode-line-highlight ((,class (:inherit highlight))))
     `(mode-line-inactive ((,class (:foreground ,nord4 :background ,nord1))))
