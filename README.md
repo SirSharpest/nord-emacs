@@ -20,6 +20,10 @@ Nord Emacs is a 16 colorspace theme build to run in GUI- and terminal mode with 
       - [Package.el](#package-el)
     - [Activation](#activation)
   - [Features](#features)
+  - [Customization](#customization)
+    - [Custom Comment Brightness](#custom-comment-brightness)
+    - [Region Highlight Style](#region-highlight-style)
+    - [Uniform Mode Lines](#uniform-mode-lines)
   - [Package Support](#package-support)
     - [Syntax Packages](#syntax-packages)
     - [UI Packages](#ui-packages)
@@ -41,7 +45,7 @@ Make sure to install one of the currently supported terminal themes listed below
 [![Nord PuTTY](https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/nord-putty-banner.svg)](https://github.com/arcticicestudio/nord-putty)  
 [![Nord Terminal.app](https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/nord-terminal-app-banner.svg)](https://github.com/arcticicestudio/nord-terminal-app)  
 [![Nord Terminator](https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/nord-terminator-banner.svg)](https://github.com/arcticicestudio/nord-terminator)  
-[![Nord Terminix](https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/nord-terminix-banner.svg)](https://github.com/arcticicestudio/nord-terminix)  
+[![Nord Tilix](https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/nord-tilix-banner.svg)](https://github.com/arcticicestudio/nord-tilix)  
 [![Nord Termite](https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/nord-termite-banner.svg)](https://github.com/arcticicestudio/nord-termite)  
 [![Nord XFCE Terminal](https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/nord-xfce-terminal-banner.svg)](https://github.com/arcticicestudio/nord-xfce-terminal)  
 [![Nord Xresources](https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/nord-xresources-banner.svg)](https://github.com/arcticicestudio/nord-xresources)  
@@ -49,7 +53,7 @@ Make sure to install one of the currently supported terminal themes listed below
 #### Package.el
 Nord Emacs is avaiable as `package.el`-compatible Emacs Lisp package via [MELPA](https://melpa.org), [MELPA Stable](https://stable.melpa.org) and [marmalade-repo](https://marmalade-repo.org).
 
-> <kbd>M-x</kbd> `package-install` <kbd>RET</kbd> `nord` <kbd>RET</kbd>
+> <kbd>M-x</kbd> `package-install` <kbd>RET</kbd> `nord-theme` <kbd>RET</kbd>
 
 #### Manual
 [Download](https://github.com/arcticicestudio/nord-emacs/releases/latest) the latest version or clone the repository and copy the [`nord-theme.el`](https://github.com/arcticicestudio/nord-emacs/blob/develop/nord-theme.el) theme file to your `~/.emacs.d/themes` directory.
@@ -70,6 +74,76 @@ or change it on-the-fly by running <kbd>M-x</kbd> `load-theme` <kbd>RET</kbd> `n
 <p align="center"><strong>Non-obtrusive bracket matching- and search marker.</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-feature-bracket-matching.png"/><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-feature-search.gif"/></p>
 
 <p align="center"><strong>Colors of selected code can still be easily recognized.</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrcast-feature-selection.gif"/></p>
+
+## Customization
+
+All customizations need to be set before `load-theme` is invoked for Nord and require a restart of Emacs when changed!
+
+### Custom Comment Brightness
+
+This customization allows to define a custom comment color brightness with percentage adjustments from *0* - *20*. It is a way to provide a way for users to easily adjust the comment color to fit their needs without overriding specific faces individually.
+
+It can be enabled by adding the `nord-comment-brightness` variable to a number between `1` and `20` in your `init.el`:
+
+```lisp
+(setq nord-comment-brightness 15)
+```
+
+To adhere to the Nord style guide this option uses `nord3` by default and applied as fallback when the variable is assigned a invalid value.
+
+This customization is a port of the reference implementation from the [Nord Atom Syntax][nord-atom-syntax-gh-47] project. The values are calculated using the LESSCSS [`lighten`][lesscss-doc-lighten] function to ensure full interoperability with other port projects that providing this theme feature.
+
+| Increased by | Calculated value |
+| --- | --- |
+| 0%  (default) | `nord3` |
+| 1% | `#4e586d` |
+| 2% | `#505b70` |
+| 3% | `#525d73` |
+| 4% | `#556076` |
+| 5% | `#576279` |
+| 6% | `#59647c` |
+| 7% | `#5b677f` |
+| 8% | `#5d6982` |
+| 9% | `#5f6c85` |
+| 10% | `#616e88` |
+| 11% | `#63718b` |
+| 12% | `#66738e` |
+| 13% | `#687591` |
+| 14% | `#6a7894` |
+| 15% | `#6d7a96` |
+| 16% | `#6f7d98` |
+| 17% | `#72809a` |
+| 18% | `#75829c` |
+| 19% | `#78859e` |
+| 20% | `#7b88a1` |
+
+<p align="center"><strong>Default comment brightness</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-custom-comment-brightness-java-default.png"/><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-custom-comment-brightness-js-default.png"/><br><strong>Increased comment brightness by 15%</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-custom-comment-brightness-java-15percent.png"/><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-custom-comment-brightness-js-15percent.png"/></p>
+
+### Region Highlight Style
+
+Allows to set a style for the region highlight based on the Nord components, either to `snowstorm` or `frost`.
+
+To adhere to the Nord style guide this option uses `nord2` as background- and no specific foreground color.
+
+It can be enabled by setting the `nord-region-highlight` variable to the desired style `snowstorm` or `frost` in your `init.el`:
+
+```lisp
+(setq nord-region-highlight "snowstorm")
+```
+
+p align="center"><strong><code>snowstorm</code> region highlight style</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-customization-region-highlight-style-snowstorm.png"/><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrcast-customization-region-highlight-style-snowstorm.gif"/><br><strong><code>frost</code> region highlight style</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-customization-region-highlight-style-frost.png"/><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrcast-customization-region-highlight-style-frost.gif"/><br><strong>default region highlight style</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-customization-region-highlight-style-default.png"/><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrcast-customization-region-highlight-style-default.gif"/></p>
+
+### Uniform Mode Lines
+
+Enables uniform activate- and inactive mode lines using `nord3` as background.
+
+It can be activated by setting the `nord-uniform-mode-lines` variable to `t` in your `init.el`:
+
+```lisp
+(setq nord-uniform-mode-lines t)
+```
+
+<p align="center"><strong>Default mode lines</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-customization-uniform-mode-lines-default.png"/><br><strong>Uniform mode lines</strong><br><img src="https://raw.githubusercontent.com/arcticicestudio/nord-emacs/develop/assets/scrot-customization-uniform-mode-lines.png"/></p>
 
 ## Package Support
 Nord Emacs provides support for many third-party syntax- and the UI packages.  
@@ -115,6 +189,9 @@ Please report issues/bugs, feature requests and suggestions for improvements to 
 
 <p align="center"><img src="https://cdn.rawgit.com/arcticicestudio/nord/develop/src/assets/banner-footer-mountains.svg" /></p>
 
-<p align="center"> <img src="http://arcticicestudio.com/favicon.ico" width=16 height=16/> Copyright &copy; 2017 Arctic Ice Studio</p>
+<p align="center">Copyright &copy; 2017-present Arctic Ice Studio</p>
 
-<p align="center"><a href="http://www.apache.org/licenses/LICENSE-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-5E81AC.svg?style=flat-square"/></a> <a href="https://creativecommons.org/licenses/by-sa/4.0"><img src="https://img.shields.io/badge/License-CC_BY--SA_4.0-5E81AC.svg?style=flat-square"/></a></p>
+<p align="center"><a href="https://github.com/arcticicestudio/nord-emacs/blob/develop/LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-5E81AC.svg?style=flat-square"/></a> <a href="https://creativecommons.org/licenses/by-sa/4.0"><img src="https://img.shields.io/badge/License-CC_BY--SA_4.0-5E81AC.svg?style=flat-square"/></a></p>
+
+[lesscss-doc-lighten]: http://lesscss.org/functions/#color-operations-lighten
+[nord-atom-syntax-gh-47]: https://github.com/arcticicestudio/nord-atom-syntax/issues/47
